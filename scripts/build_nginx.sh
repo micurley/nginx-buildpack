@@ -42,20 +42,14 @@ cd nginx-${NGINX_VERSION}
 echo "Downloading $pcre_tarball_url"
 curl $pcre_tarball_url | tar xf -
 
-echo "Downloading $http_upstream_keepalive_url"
-curl $http_upstream_keepalive_url | tar xf -
-
-echo "Downloading $srcache_tarball_url"
-curl $srcache_tarball_url | tar xf -
-
 echo "Downloading $redis_tarball_url"
 curl $redis_tarball_url | tar xf -
+
+cd ..
 
 vulcan build -o ${vulcan_archive_result} -s nginx-${NGINX_VERSION} -v -p /tmp/nginx -c \
     "./configure \
         --with-pcre=pcre-${PCRE_VERSION} \
-        --add-module=ngx_http_upstream_keepalive-${HUK_VERSION} \
-        --add-module=srcache-nginx-module-${SR_CACHE_VERSION} \
         --add-module=ngx_http_redis-${REDIS_VERSION} \
         --prefix=/tmp/nginx && \
         make install \
