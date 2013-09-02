@@ -4,7 +4,8 @@ set -e
 
 mkdir -p "$1/bin/"
 echo 'Initialing Build'
-source '$1/scripts/build_nginx.sh'
+ls -al
+source '../scripts/build_nginx.sh'
 
 #cp bin/nginx "$1/bin/"
 nginx_version=$(./bin/nginx -V 2>&1 | head -1 | awk '{ print $NF }')
