@@ -51,8 +51,6 @@ curl $srcache_tarball_url | tar xf -
 echo "Downloading $redis_tarball_url"
 curl $redis_tarball_url | tar xf -
 
-
-
 vulcan build -o ${vulcan_archive_result} -s nginx-${NGINX_VERSION} -v -p /tmp/nginx -c \
     "./configure \
         --with-pcre=pcre-${PCRE_VERSION} \
