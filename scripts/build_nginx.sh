@@ -5,10 +5,12 @@
 
 NGINX_VERSION=1.5.2
 PCRE_VERSION=8.21
+HUK_VERSION=d7643c291ef0
 
 nginx_tarball_url=http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz
 #pcre_tarball_url=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-${PCRE_VERSION}.tar.bz2
 pcre_tarball_url=http://garr.dl.sourceforge.net/project/pcre/pcre/${PCRE_VERSION}/pcre-${PCRE_VERSION}.tar.bz2
+http_upstream_keepalive_url=http://mdounin.ru/hg/ngx_http_upstream_keepalive/archive/${HUK_VERSION}.tar.gz
 
 temp_dir=$(mktemp -d /tmp/vulcan_nginx.XXXXXXXXXX)
 
@@ -30,12 +32,21 @@ echo "Temp dir: $temp_dir"
 echo "Downloading $nginx_tarball_url"
 curl $nginx_tarball_url | tar xf -
 
+echo "Moving into ngninx directory"
+cd nginx-${NGINX_VERSION}
+
 echo "Downloading $pcre_tarball_url"
-(cd nginx-${NGINX_VERSION} && curl $pcre_tarball_url | tar xf -)
+curl $pcre_tarball_url | tar xf -
+
+echo "Downloading $http_upstream_keepalive_url"
+curl $http_upstream_keepalive_url | tar xf -
+
+
 
 vulcan build -o ${vulcan_archive_result} -s nginx-${NGINX_VERSION} -v -p /tmp/nginx -c \
     "./configure \
         --with-pcre=pcre-${PCRE_VERSION} \
+        --add-module=ngx_http_upstream_keepalive-${HUK_VERSION} \
         --prefix=/tmp/nginx && \
         make install \
     "
