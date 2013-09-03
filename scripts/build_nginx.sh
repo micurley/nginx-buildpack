@@ -55,6 +55,7 @@ cd ..
 vulcan build -o ${vulcan_archive_result} -s nginx-${NGINX_VERSION} -v -p /tmp/nginx -c \
     "./configure \
         --with-pcre=pcre-${PCRE_VERSION} \
+        --with-debug  \
         --add-module=ngx_http_redis-${REDIS_VERSION} \
         --add-module=echo-nginx-module-${ECHO_VERSION} \
         --prefix=/tmp/nginx && \
